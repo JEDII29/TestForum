@@ -2,8 +2,9 @@
 {
 	public class User
 	{
-		public string? Nickname { get; set; } = null;
-		public string? Password { get; set; }
+		public Guid Id { get; set; }
+		public string Nickname { get; set; } = null;
+		public string Password { get; set; }
 		public int Reputation { get; private set; }
 		public User() { }
 

@@ -1,5 +1,0 @@
-public enum State {
-    Published,
-    Waiting,
-    CLosed,
-}

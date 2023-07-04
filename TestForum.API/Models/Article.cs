@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client;
+using TestForum.API.Enums;
 
 namespace TestForum.API.Models
 {
@@ -11,7 +12,7 @@ namespace TestForum.API.Models
 		public int AuthorID { get; set; }
 		public string AuthorName {get; set; }
 		public DateTime PublishionDate {get; set; }
-		private State Status {get; set; }
+		private State Status {get; set; } 
 		public Article() { }
 	}
 }

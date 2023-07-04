@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 		x => x.MigrationsAssembly("TestForum.DatabaseContext")));
 
 builder.Services.AddScoped<IUsersService, ExampleUsersService>();
+builder.Serwices.AddScoped<IArticlesService, ArticlesService>();
 
 var app = builder.Build();
 

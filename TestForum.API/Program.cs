@@ -8,6 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUsersService, ExampleUsersService>();
+builder.Serwices.AddScoped<IArticlesService, ArticlesService>();
 
 var app = builder.Build();
 

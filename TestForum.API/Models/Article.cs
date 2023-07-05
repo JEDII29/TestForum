@@ -7,7 +7,7 @@
 		public int AuthorID { get; set; }
 		public string AuthorName {get; set; }
 		public DateTime PublishionDate {get; set; }
-		private State Status {get; set; }
+		public State Status {get; set; } 
 		public Article() { }
 	}
 }

@@ -2,9 +2,11 @@
 {
 	public class User
 	{
-		public string? Nickname { get; set; } = null;
-		public string? Password { get; set; }
+		public string Nickname { get; set; } = null;
+		public string Password { get; set; }
 		public int Reputation { get; private set; }
+		public List<Article> PublishedArticles { get; set;}
+
 		public User() { }
 
 		public User(string nickname, string password) 
@@ -20,5 +22,10 @@
 			Reputation = random.Next(0, 40);
 			
 		}
+
+		public void ChangeReputation(int value)
+		{
+			Reputation = value;
+		} 
 	}
 }

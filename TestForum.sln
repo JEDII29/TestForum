@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForum.API", "TestForum.API\TestForum.API.csproj", "{8F9DD8F9-EBAC-41AF-A81A-6F25F262C4BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForum.DatabaseContext", "TestForum.DatabaseContext\TestForum.DatabaseContext.csproj", "{DFD8EFC3-252E-44CB-AC3F-D9E0E16D3636}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestForum.Data", "TestForum.Data\TestForum.Data.csproj", "{DFD8EFC3-252E-44CB-AC3F-D9E0E16D3636}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

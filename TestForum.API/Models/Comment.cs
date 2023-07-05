@@ -9,4 +9,3 @@ namespace TestForum.Models
         public Comment(){};
     }
 }
-

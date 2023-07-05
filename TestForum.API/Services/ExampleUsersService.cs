@@ -31,6 +31,11 @@ namespace TestForum.API.Services
 
 		}
 
+		public void ChangeUserReputation(int value, User user)
+		{
+			user.ChangeReputation(value);
+		}
+
 		//IEnumerable<User> IUsersService.GetAllUsers() => new List<User>() {
 		//	new User {  
 		//	},

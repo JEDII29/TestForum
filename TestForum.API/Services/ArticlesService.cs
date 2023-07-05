@@ -5,16 +5,31 @@ namespace TestForum.API.Services
 {
 	public class ArticlesService : IArticlesService
 	{
-		public ExampleUsersService() { }
 
-		public async Task<IEnumerable<Article>> GetAllUserArticles(User user)
+		public Task ChangeArticleStatus()
 		{
 			throw new NotImplementedException();
 		}
 
-        public async Task<Article> GetTenNewestArticles()
+		public Task<IEnumerable<Article>> GetAllUserArticles(User user)
+		{
+			// Asynchroniczne operacje
+			throw new NotImplementedException();
+		}
+
+		public Task<Article> GetTenNewestArticles()
         {
-            throw new NotImplementedException();
-        }
-    }
+			throw new NotImplementedException();
+		}
+
+		public Task PublishNewArticle(Article article)
+		{
+			throw new NotImplementedException();
+		}
+
+		Task<Article[]> IArticlesService.GetTenNewestArticles()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

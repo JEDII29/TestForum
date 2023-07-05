@@ -6,6 +6,5 @@ namespace TestForum.Models
         public string AuthorName {get; set; }
         public DateTime PublishionDate {get ; set; }
 
-        public Comment(){};
     }
 }

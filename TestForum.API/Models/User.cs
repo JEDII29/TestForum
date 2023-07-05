@@ -3,7 +3,7 @@
 	public class User
 	{
 		public Guid Id { get; set; }
-		public string Nickname { get; set; } = null;
+		public string Nickname { get; set; }
 		public string Password { get; set; }
 		public int Reputation { get; private set; }
 		public List<Article> PublishedArticles { get; set;}

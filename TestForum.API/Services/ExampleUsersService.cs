@@ -6,17 +6,12 @@ namespace TestForum.API.Services
 {
 	public class ExampleUsersService : IUsersService
 	{
-		private readonly HttpClient _httpClient;
-
-		public ExampleUsersService(HttpClient httpClient) { 
-			_httpClient = httpClient;
-		}
 		public ExampleUsersService() { }
 
 		public async Task<IEnumerable<User>> GetAllUsers()
 		{
 			//throw new NotImplementedException();
-			List<User> users = new List<User>
+			List<User> users = new()
 			{
 				new User ("chuj", "haslo"),
 				new User ("debil", "maslo"),
@@ -35,19 +30,5 @@ namespace TestForum.API.Services
 		{
 			user.ChangeReputation(value);
 		}
-
-		//IEnumerable<User> IUsersService.GetAllUsers() => new List<User>() {
-		//	new User {  
-		//	},
-		//	new User {  Nickname = "debil",
-		//				Password = "maslo",
-		//				Reputation = 2137 
-		//	},
-		//	new User {  Nickname = "karpik",
-		//				Password = "paslo",
-		//				Reputation = 420 
-		//	}
-		//};
-
 	}
 }

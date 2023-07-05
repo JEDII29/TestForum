@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TestForum.API.Abstract;
 
 namespace TestForum.API.Controllers
 {
 	[Route("api/[controller]")]
 	public class ArticleController : Controller
 	{
-		private readonly IArticleService _articleService;
+		private readonly IArticlesService _articleService;
 
-		ArticleController(IArticleService articleService)
+		ArticleController(IArticlesService articleService)
 		{
 			_articleService = articleService;
 		}
@@ -19,17 +20,18 @@ namespace TestForum.API.Controllers
 		public async Task<IActionResult>  GetArticles()
 		{
 			var articles = await _articleService.GetTenNewestArticles();
-			if(articles.Any())
-				return Ok(articles)
+			if (articles.Any())
+				return Ok(articles);
 			return NotFound();
 		}
 		[HttpGet("GetUserArticles")]
-		public async Task<IActionResult>  GetUserArticles(int )
+		public Task<IActionResult>  GetUserArticles(int i)
 		{
-			var articles = await _articleService.GetAllUserArticles();
-			if(articles.Any())
-				return Ok(articles)
-			return NotFound();
+			//var articles = await _articleService.GetAllUserArticles();
+			//if (articles.Any())
+			//	return Ok(articles);
+			//return NotFound();
+			throw new NotImplementedException();
 		}
 	}
 }

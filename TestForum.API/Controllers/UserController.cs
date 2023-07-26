@@ -12,10 +12,10 @@ namespace TestForum.API.Controllers
 			_userGetter = userGettter;
 		}
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+		//public IActionResult Index()
+		//{
+		//	return View();
+		//}
 
 		[HttpGet]
 		public async Task<IActionResult> GetAll() 

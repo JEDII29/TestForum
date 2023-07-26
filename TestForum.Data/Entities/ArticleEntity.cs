@@ -18,7 +18,7 @@ namespace TestForum.Data.Entities
 		public string Author { get; set; }
 		public DateTime PublicationTime { get; set; }
 		[ForeignKey("UserId")]
-		public UserEntity User { get; set; }
+		public ApplicationUserEntity User { get; set; }
 
 		public Guid UserId { get; set; }
 

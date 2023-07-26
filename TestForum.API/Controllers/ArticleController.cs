@@ -16,6 +16,7 @@ namespace TestForum.API.Controllers
 		// {
 		// 	return View();
 		// }
+
 		[HttpGet("GetArticles")]
 		public async Task<IActionResult>  GetArticles()
 		{

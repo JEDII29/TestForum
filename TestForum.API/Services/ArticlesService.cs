@@ -1,10 +1,17 @@
 using TestForum.API.Abstract;
 using TestForum.API.Models;
+using TestForum.Data;
 
 namespace TestForum.API.Services
 {
 	public class ArticlesService : IArticlesService
 	{
+		private readonly ForumDbContext _dbContext;
+
+		public ArticlesService(ForumDbContext dbContext)
+		{
+			_dbContext = dbContext;
+		}
 
 		public Task ChangeArticleStatus()
 		{

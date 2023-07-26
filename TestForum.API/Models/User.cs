@@ -1,6 +1,8 @@
-﻿namespace TestForum.API.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace TestForum.API.Models
 {
-	public class User
+	public class User : IdentityUser
 	{
 		public Guid Id { get; set; }
 		public string Nickname { get; set; }

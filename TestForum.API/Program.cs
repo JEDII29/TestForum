@@ -17,10 +17,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUsersService, ExampleUsersService>();
 builder.Services.AddScoped<IArticlesService, ArticlesService>();
 
+builder.Services.AddSwaggerGen(c =>
+{
+	c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestForum", Version = "v1" });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+	app.UseSwagger();
+	app.UseSwaggerUI(c =>
+	{
+		c.SwaggerEndpoint("/swagger/v1/swagger.json", "TestForum");
+		c.RoutePrefix = "swagger";
+	});
 }
 
 app.MapGet("/", () => "Hello World!");

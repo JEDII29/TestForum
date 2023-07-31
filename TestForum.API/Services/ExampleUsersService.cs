@@ -8,25 +8,19 @@ namespace TestForum.API.Services
 {
 	public class ExampleUsersService : IUsersService
 	{
-		private readonly ForumDbContext _dbContext;
-
-		//public ExampleUsersService(AppDbContext dbContext)
-		//{
-		//	_dbContext = dbContext;
-		//}
 
 		public ExampleUsersService()
 		{
 		}
 
-		public async Task<IEnumerable<User>> GetAllUsers()
+		public async Task<IEnumerable<UserDTO>> GetAllUsers()
 		{
 			//throw new NotImplementedException();
-			List<User> users = new()
+			List<UserDTO> users = new()
 			{
-				new User ("chuj", "haslo"),
-				new User ("debil", "maslo"),
-				new User ("karpik", "paslo"),
+				new UserDTO ("chuj"),
+				new UserDTO ("debil"),
+				new UserDTO ("karpik"),
 			};
 
 			foreach (var user in users) { 
@@ -36,9 +30,14 @@ namespace TestForum.API.Services
 
 		}
 
-		public void ChangeUserReputation(int value, User user)
+		public void ChangeUserReputation(int value, UserDTO user)
 		{
 			user.ChangeReputation(value);
+		}
+
+		public void SaveNewUser(UserDTO user)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

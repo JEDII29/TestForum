@@ -4,7 +4,8 @@ namespace TestForum.API.Abstract
 {
 	public interface IUsersService
 	{
-		public Task<IEnumerable<User>> GetAllUsers();
-		public void ChangeUserReputation(int value, User user);
+		public Task<IEnumerable<UserDTO>> GetAllUsers();
+		public void ChangeUserReputation(int value, UserDTO user);
+		public void SaveNewUser(UserDTO user);
 	}
 }

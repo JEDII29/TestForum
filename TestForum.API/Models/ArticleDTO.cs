@@ -1,9 +1,11 @@
 ﻿using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using TestForum.API.Enums;
 
 namespace TestForum.API.Models
 {
-	public class Article
+	public class ArticleDTO
 	{
 		public Guid Id { get; set; }
 		public string Title { get; set; }
@@ -13,6 +15,8 @@ namespace TestForum.API.Models
 		public string AuthorName {get; set; }
 		public DateTime PublishionDate {get; set; }
 		public State Status {get; set; } 
-		public Article() { }
+		public ArticleDTO() { }
+
+
 	}
 }

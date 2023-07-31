@@ -6,6 +6,8 @@ using TestForum.API.Abstract;
 using TestForum.API.Services;
 using TestForum.Data;
 using TestForum.Data.Entities;
+using AutoMapper;
+using TestForum.API.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +17,14 @@ builder.Services.AddDbContext<ForumDbContext>(options =>
 	options.UseSqlServer(
 		builder.Configuration.GetConnectionString("LocalConnection")));
 
-builder.Services.AddIdentity<ApplicationUserEntity, IdentityRole<Guid>>()
+builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>()
 	.AddEntityFrameworkStores<ForumDbContext>()
 	.AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IUsersService, ExampleUsersService>();
 builder.Services.AddScoped<IArticlesService, ArticlesService>();
+
+builder.Services.AddScoped<ArticleMapper>();
 
 var app = builder.Build();
 

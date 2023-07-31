@@ -1,21 +1,18 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace TestForum.API.Models
 {
-	public class User : IdentityUser
+	public class UserDTO : IdentityUser<Guid>
 	{
-		public Guid Id { get; set; }
-		public string Nickname { get; set; }
-		public string Password { get; set; }
+		public override Guid Id { get; set; }
+		public override string UserName { get; set; }
 		public int Reputation { get; private set; }
-		public List<Article> PublishedArticles { get; set;}
+		public List<ArticleDTO>? PublishedArticles { get; set; }
 
-		public User() { }
-
-		public User(string nickname, string password) 
+		public UserDTO(string userName) 
 		{ 
-			Nickname = nickname;
-			Password = password;
+			UserName = userName;
 			Reputation = 0;
 		}
 

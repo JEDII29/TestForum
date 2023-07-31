@@ -4,9 +4,10 @@ namespace TestForum.API.Abstract
 {
 	public interface IArticlesService
 	{
-		public Task<Article[]> GetTenNewestArticles();
-		public Task<IEnumerable<Article>> GetAllUserArticles(User user);
-		public Task PublishNewArticle(Article article);
-		public Task ChangeArticleStatus();
+		public Task<ArticleDTO[]> GetTenNewestArticles();
+		public Task PublishNewArticle(ArticleDTO article);
+		public Task<IEnumerable<ArticleDTO>> GetUserArticles(Guid userId);
+		public Task<ArticleDTO> GetArticleById(Guid articleId);
+		public Task ChangeArticleStatusById(Guid articleId);
 	}
 }

@@ -12,13 +12,17 @@ namespace TestForum.Data.Entities
 	{
 
 		[Key]
+		[Required]
 		public Guid Id { get; set; }
+		[Required]
 		public string Title { get; set; }
+		[Required]
 		public string Content { get; set; }
-		public string Author { get; set; }
+		[Required]
 		public DateTime PublicationTime { get; set; }
+		[Required]
 		[ForeignKey("UserId")]
-		public ApplicationUserEntity User { get; set; }
+		public UserEntity User { get; set; }
 
 		public Guid UserId { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestForum.API.Models;
 using TestForum.API.Abstract;
+using Microsoft.AspNetCore.Identity;
 
 namespace TestForum.API.Controllers
 {
@@ -8,6 +9,8 @@ namespace TestForum.API.Controllers
 	public class UserController : Controller
 	{
 		private readonly IUsersService _userGetter;
+		private readonly UserManager<UserDTO> _userManager;
+		
 		public UserController(IUsersService userGettter) { 
 			_userGetter = userGettter;
 		}

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TestForum.Data
 {
-	public class ForumDbContext : IdentityDbContext<ApplicationUserEntity, IdentityRole<Guid>, Guid>
+	public class ForumDbContext : IdentityDbContext<UserEntity, IdentityRole<Guid>, Guid>
 	{
 		public ForumDbContext(DbContextOptions<ForumDbContext> options)
 			: base(options)
@@ -22,12 +22,12 @@ namespace TestForum.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<ApplicationUserEntity>()
+			modelBuilder.Entity<UserEntity>()
 				.HasMany(u => u.Articles)
 				.WithOne(a => a.User)
 				.HasForeignKey(a => a.UserId);
 
-			modelBuilder.Entity<ApplicationUserEntity>()
+			modelBuilder.Entity<UserEntity>()
 				.HasMany(u => u.Comments)
 				.WithOne(c => c.User)
 				.HasForeignKey(c => c.UserId)

@@ -12,7 +12,7 @@ using TestForum.Data;
 namespace TestForum.Data.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20230724202217_InitialCreate")]
+    [Migration("20230726004053_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -136,25 +136,17 @@ namespace TestForum.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NormalizedUserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")

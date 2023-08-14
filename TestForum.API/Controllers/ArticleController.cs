@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using TestForum.API.Abstract;
+using TestForum.API.Models;
 
 namespace TestForum.API.Controllers
 {
@@ -33,6 +35,12 @@ namespace TestForum.API.Controllers
 			//	return Ok(articles);
 			//return NotFound();
 			throw new NotImplementedException();
+		}
+		[HttpPost]
+		public async Task<IActionResult> PostNewArticle(ArticleDTO newArticle)
+		{
+			await _articleService.PublishNewArticle(newArticle);
+			return Ok();
 		}
 	}
 }

@@ -12,7 +12,7 @@ using TestForum.Data;
 namespace TestForum.Data.Migrations
 {
     [DbContext(typeof(ForumDbContext))]
-    [Migration("20230726004053_InitialCreate")]
+    [Migration("20230813180648_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -124,65 +124,11 @@ namespace TestForum.Data.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("TestForum.Data.Entities.ApplicationUserEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Reputation")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("TestForum.Data.Entities.ArticleEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -233,9 +179,50 @@ namespace TestForum.Data.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("TestForum.Data.Entities.UserEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Reputation")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("TestForum.Data.Entities.ArticleEntity", b =>
                 {
-                    b.HasOne("TestForum.Data.Entities.ApplicationUserEntity", "User")
+                    b.HasOne("TestForum.Data.Entities.UserEntity", "User")
                         .WithMany("Articles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -252,7 +239,7 @@ namespace TestForum.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestForum.Data.Entities.ApplicationUserEntity", "User")
+                    b.HasOne("TestForum.Data.Entities.UserEntity", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -263,15 +250,15 @@ namespace TestForum.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TestForum.Data.Entities.ApplicationUserEntity", b =>
+            modelBuilder.Entity("TestForum.Data.Entities.ArticleEntity", b =>
                 {
-                    b.Navigation("Articles");
-
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("TestForum.Data.Entities.ArticleEntity", b =>
+            modelBuilder.Entity("TestForum.Data.Entities.UserEntity", b =>
                 {
+                    b.Navigation("Articles");
+
                     b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618

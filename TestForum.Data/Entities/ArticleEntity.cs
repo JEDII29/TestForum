@@ -27,5 +27,11 @@ namespace TestForum.Data.Entities
 		public Guid UserId { get; set; }
 
 		public virtual ICollection<CommentEntity> Comments { get; set; }
+
+		public ArticleEntity() {
+			Id = new Guid();
+			PublicationTime = DateTime.Now;
+
+		}
 	}
 }

@@ -18,7 +18,7 @@ namespace TestForum.Data.Entities
 		[Required]
 		public override string? UserName { get; set; }
 		[Required]
-		public int Reputation { get; private set; }
+		public int Reputation { get; set; }
 		[Required]
 		public override string? PasswordHash { get; set; }
 		[NotMapped]
@@ -34,10 +34,8 @@ namespace TestForum.Data.Entities
 		[NotMapped]
 		public override int AccessFailedCount { get; set; }
 
-		UserEntity(string userName, string passwordHash)
+		public UserEntity(string userName, string passwordHash) : base(userName)
 		{
-			Id = Guid.NewGuid();
-			UserName = userName;
 			PasswordHash = passwordHash;
 			Reputation = 0;
 		}

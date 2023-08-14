@@ -8,6 +8,9 @@ using TestForum.Data;
 using TestForum.Data.Entities;
 using AutoMapper;
 using TestForum.API.Mappers;
+using TestForum.Data.Seeds;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,7 @@ builder.Services.AddDbContext<ForumDbContext>(options =>
 	options.UseSqlServer(
 		builder.Configuration.GetConnectionString("LocalConnection")));
 
+builder.Services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
 builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>()
 	.AddEntityFrameworkStores<ForumDbContext>()
 	.AddDefaultTokenProviders();
@@ -33,7 +37,8 @@ var rolesToAdd = new[] { "admin", "user" };
 using (var scope = app.Services.CreateScope())
 {
 	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-
+	UserSeed.SeedUsers(scope.ServiceProvider);
+	ArticleSeed.SeedArticles(scope.ServiceProvider);
 	foreach (var roleName in rolesToAdd)
 	{
 		// Sprawdź, czy rola już istnieje w bazie danych

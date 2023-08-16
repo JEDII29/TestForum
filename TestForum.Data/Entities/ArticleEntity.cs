@@ -12,16 +12,26 @@ namespace TestForum.Data.Entities
 	{
 
 		[Key]
+		[Required]
 		public Guid Id { get; set; }
+		[Required]
 		public string Title { get; set; }
+		[Required]
 		public string Content { get; set; }
-		public string Author { get; set; }
+		[Required]
 		public DateTime PublicationTime { get; set; }
+		[Required]
 		[ForeignKey("UserId")]
 		public UserEntity User { get; set; }
 
 		public Guid UserId { get; set; }
 
 		public virtual ICollection<CommentEntity> Comments { get; set; }
+
+		public ArticleEntity() {
+			Id = new Guid();
+			PublicationTime = DateTime.Now;
+
+		}
 	}
 }

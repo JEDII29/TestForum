@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using TestForum.API.Abstract;
+using TestForum.API.Models;
 
 namespace TestForum.API.Controllers
 {
@@ -9,7 +11,7 @@ namespace TestForum.API.Controllers
 	{
 		private readonly IArticlesService _articleService;
 
-		ArticleController(IArticlesService articleService)
+		public ArticleController(IArticlesService articleService)
 		{
 			_articleService = articleService;
 		}
@@ -28,14 +30,20 @@ namespace TestForum.API.Controllers
 				return Ok(articles);
 			return NotFound();
 		}
-		[HttpGet("GetUserArticles")]
-		public Task<IActionResult>  GetUserArticles(int i)
+		//[HttpGet("GetUserArticles")]
+		//public Task<IActionResult>  GetUserArticles(int i)
+		//{
+		//	//var articles = await _articleService.GetUserArticles();
+		//	//if (articles.Any())
+		//	//	return Ok(articles);
+		//	//return NotFound();
+		//	throw new NotImplementedException();
+		//}
+		[HttpPost]
+		public async Task<IActionResult> PostNewArticle(ArticleDTO newArticle)
 		{
-			//var articles = await _articleService.GetAllUserArticles();
-			//if (articles.Any())
-			//	return Ok(articles);
-			//return NotFound();
-			throw new NotImplementedException();
+			await _articleService.PublishNewArticle(newArticle);
+			return Ok();
 		}
 	}
 }

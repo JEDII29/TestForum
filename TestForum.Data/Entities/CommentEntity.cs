@@ -11,16 +11,17 @@ namespace TestForum.Data.Entities
 	public class CommentEntity
 	{
 		[Key]
+		[Required]
 		public Guid Id { get; set; }
+		[Required]
 		public string Content { get; set; }
-
+		[Required]
 		public DateTime PublicationTime { get; set; }
-
+		[Required]
 		[ForeignKey("UserId")]
 		public UserEntity User { get; set; }
-
 		public Guid UserId { get; set; }
-
+		[Required]
 		[ForeignKey("ArticleId")]
 		public ArticleEntity Article { get; set; }
 

@@ -3,6 +3,7 @@ using TestForum.API.Abstract;
 
 namespace TestForum.API.Controllers
 {
+	[ApiController]
 	[Route("api/[controller]")]
 	public class ArticleController : Controller
 	{
@@ -12,10 +13,13 @@ namespace TestForum.API.Controllers
 		{
 			_articleService = articleService;
 		}
-		// public IActionResult Index()
-		// {
-		// 	return View();
-		// }
+
+		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
+
 		[HttpGet("GetArticles")]
 		public async Task<IActionResult>  GetArticles()
 		{

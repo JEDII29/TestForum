@@ -10,7 +10,7 @@ namespace TestForum.API.Controllers
 	{
 		private readonly IArticlesService _articleService;
 
-		ArticleController(IArticlesService articleService)
+		public ArticleController(IArticlesService articleService)
 		{
 			_articleService = articleService;
 		}
@@ -27,15 +27,15 @@ namespace TestForum.API.Controllers
 				return Ok(articles);
 			return NotFound();
 		}
-		[HttpGet("GetUserArticles")]
-		public Task<IActionResult>  GetUserArticles(int i)
-		{
-			//var articles = await _articleService.GetAllUserArticles();
-			//if (articles.Any())
-			//	return Ok(articles);
-			//return NotFound();
-			throw new NotImplementedException();
-		}
+		//[HttpGet("GetUserArticles")]
+		//public Task<IActionResult>  GetUserArticles(int i)
+		//{
+		//	//var articles = await _articleService.GetUserArticles();
+		//	//if (articles.Any())
+		//	//	return Ok(articles);
+		//	//return NotFound();
+		//	throw new NotImplementedException();
+		//}
 		[HttpPost]
 		public async Task<IActionResult> PostNewArticle(ArticleDTO newArticle)
 		{

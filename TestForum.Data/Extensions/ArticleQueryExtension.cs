@@ -11,7 +11,8 @@ namespace TestForum.Data.Extensions
 	{
 		public static IEnumerable<ArticleEntity> GetArticlesById(this IQueryable<ArticleEntity> articleEntitie, Guid userId)
 	=> articleEntitie.Where(r => r.UserId == userId);
-		public static IEnumerable<ArticleEntity> GetNewestArticles(this IQueryable<ArticleEntity> articleEntitie, Guid userId)
+		public static IEnumerable<ArticleEntity> GetNewestArticles(this IQueryable<ArticleEntity> articleEntitie)
 	=> articleEntitie.OrderBy(r => r.PublicationTime).Take(10);
+
 	}
 }

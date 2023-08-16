@@ -28,9 +28,15 @@ namespace TestForum.API.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<ArticleDTO[]> GetTenNewestArticles()
+		public Task<IEnumerable<ArticleDTO>> GetTenNewestArticles()
 		{
-			throw new NotImplementedException();
+			var articles = _dbContext.Articles.GetNewestArticles().ToList();
+			var articleDTOs = _mapper.MapToDTO(articles);
+			var result = articleDTOs.Where(x => x.AuthorName == null)
+				.Select(x => { x.AuthorName = _dbContext.Users.GetAuthorName(x.UserId);
+					return x;
+				});
+			return Task.FromResult(result);
 		}
 
 		public Task<IEnumerable<ArticleDTO>> GetUserArticles(Guid userId)

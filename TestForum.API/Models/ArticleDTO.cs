@@ -12,8 +12,7 @@ namespace TestForum.API.Models
 		public string Content { get; set; }
 		public Guid UserId { get; set; }
 		public string? AuthorName {get; set; }
-		public DateTime PublishionTime {get; set; }
-		//public State Status {get; set; } 
+		public DateTime PublicationTime {get; set; }
 		public ArticleDTO() { }
 
 	}

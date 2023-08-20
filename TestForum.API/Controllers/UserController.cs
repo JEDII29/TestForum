@@ -11,9 +11,12 @@ namespace TestForum.API.Controllers
 	{
 		private readonly IUsersService _userGetter;
 		private readonly UserManager<UserDTO> _userManager;
+		private readonly RoleManager<IdentityRole> _roleManager;
 		
-		public UserController(IUsersService userGettter) { 
+		public UserController(IUsersService userGettter, UserManager<UserDTO> userManager, RoleManager<IdentityRole> roleManager) { 
 			_userGetter = userGettter;
+			_userManager = userManager;
+			_roleManager = roleManager;
 		}
 
 		[HttpGet]
@@ -21,12 +24,13 @@ namespace TestForum.API.Controllers
 		{
 			return View();
 		}
-		[Route ("GetAll")]
+		[Route("GetAll")]
 		[HttpGet]
-		public async Task<IActionResult> GetAll() 
+		public async Task<IActionResult> GetAll()
 		{
 			var users = await _userGetter.GetAllUsers();
-			if (users.Any()) {
+			if (users.Any())
+			{
 				return Ok(users);
 			}
 			return NotFound();

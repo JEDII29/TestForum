@@ -30,17 +30,19 @@ namespace TestForum.API.Controllers
 				return Ok(articles);
 			return NotFound();
 		}
-		//[HttpGet("GetUserArticles")]
-		//public Task<IActionResult>  GetUserArticles(int i)
-		//{
-		//	//var articles = await _articleService.GetUserArticles();
-		//	//if (articles.Any())
-		//	//	return Ok(articles);
-		//	//return NotFound();
-		//	throw new NotImplementedException();
-		//}
+
+		[HttpGet("GetUserArticles")]
+		public async Task<IActionResult> GetUserArticles(string requestedId)
+		{
+			Guid userId = new Guid(requestedId); 
+			var articles = await _articleService.GetUserArticles(userId);
+			if (articles.Any())
+				return Ok(articles);
+			return NotFound();
+		}
+
 		[HttpPost]
-		public async Task<IActionResult> PostNewArticle(ArticleDTO newArticle)
+		public async Task<IActionResult> PostNewArticle([FromForm]ArticleDTO newArticle)
 		{
 			await _articleService.PublishNewArticle(newArticle);
 			return Ok();

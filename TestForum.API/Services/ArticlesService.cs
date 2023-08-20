@@ -42,8 +42,13 @@ namespace TestForum.API.Services
 		public Task<IEnumerable<ArticleDTO>> GetUserArticles(Guid userId)
 		{
 			var articles = _dbContext.Articles.GetArticlesById(userId).ToList();
-			var articleDTO = _mapper.MapToDTO(articles);
-			return Task.FromResult(articleDTO);
+			var articleDTOs = _mapper.MapToDTO(articles);
+			var result = articleDTOs.Where(x => x.AuthorName == null)
+				.Select(x => {
+				x.AuthorName = _dbContext.Users.GetAuthorName(x.UserId);
+					return x;
+				});
+			return Task.FromResult(result);
 		}
 
 		public Task PublishNewArticle(ArticleDTO article)

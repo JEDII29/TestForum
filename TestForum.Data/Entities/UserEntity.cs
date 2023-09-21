@@ -39,6 +39,10 @@ namespace TestForum.Data.Entities
 			PasswordHash = passwordHash;
 			Reputation = 0;
 		}
+		public UserEntity(string userName) : base(userName)
+		{
+			Reputation = 0;
+		}
 
 		public virtual ICollection<ArticleEntity>? Articles { get; set; }
 

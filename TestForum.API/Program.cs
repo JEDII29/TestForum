@@ -9,6 +9,7 @@ using TestForum.Data.Entities;
 using AutoMapper;
 using TestForum.API.Mappers;
 using TestForum.Data.Seeds;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -21,37 +22,47 @@ builder.Services.AddDbContext<ForumDbContext>(options =>
 		builder.Configuration.GetConnectionString("LocalConnection")));
 
 builder.Services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
-builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>()
+builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>(o=>
+	{
+		o.Password.RequireNonAlphanumeric = false;
+	})
 	.AddEntityFrameworkStores<ForumDbContext>()
 	.AddDefaultTokenProviders();
 
+builder.Services.AddAuthentication();
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddScoped<IUsersService, ExampleUsersService>();
 builder.Services.AddScoped<IArticlesService, ArticlesService>();
+
+builder.Services.AddScoped<ArticleMapper>();
 
 builder.Services.AddSwaggerGen(c =>
 {
 	c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestForum", Version = "v1" });
 });
 
-builder.Services.AddScoped<ArticleMapper>();
 
 var app = builder.Build();
 
-var rolesToAdd = new[] { "admin", "user" };
 // Dodaj role przy uruchamianiu aplikacji
 using (var scope = app.Services.CreateScope())
 {
-	var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-	UserSeed.SeedUsers(scope.ServiceProvider);
-	ArticleSeed.SeedArticles(scope.ServiceProvider);
+	var rolesToAdd = new[] { "admin", "user" };
+	var RoleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+	var UsrMgr = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
+	var DbCntx = new ForumDbContext(scope.ServiceProvider.GetRequiredService<DbContextOptions<ForumDbContext>>());
+	var PswdHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher<UserEntity>>();
+
 	foreach (var roleName in rolesToAdd)
 	{
 		// Sprawdź, czy rola już istnieje w bazie danych
-		if (!roleManager.RoleExistsAsync(roleName).Result)
+		if (!RoleMgr.RoleExistsAsync(roleName).Result)
 		{
 			// Jeśli nie istnieje, dodaj nową rolę
 			var role = new IdentityRole<Guid>(roleName);
-			var result = roleManager.CreateAsync(role).Result;
+			var result = RoleMgr.CreateAsync(role).Result;
 
 			if (result.Succeeded)
 			{
@@ -63,7 +74,31 @@ using (var scope = app.Services.CreateScope())
 			}
 		}
 	}
+	if (!DbCntx.Users.Any())
+	{
+		var user1 = new UserEntity("Administrator")
+		{
+			Reputation = 100
+		};
+
+		var user2 = new UserEntity("user1")
+		{
+			Reputation = 150
+		};
+
+		var user3 = new UserEntity("user2")
+		{
+			Reputation = 75
+		};
+		await UsrMgr.CreateAsync(user1, password: "Password1");
+		await UsrMgr.AddToRoleAsync(user1, "admin");
+		await UsrMgr.CreateAsync(user2, password: "Password2");
+		await UsrMgr.AddToRoleAsync(user2, "user");
+		await UsrMgr.CreateAsync(user3, password: "Password3");
+		await UsrMgr.AddToRoleAsync(user3, "user");
+	}
 }
+
 
 
 

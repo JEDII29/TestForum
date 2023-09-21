@@ -42,7 +42,7 @@ namespace TestForum.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> PostNewArticle([FromForm]ArticleDTO newArticle)
+		public async Task<IActionResult> PostNewArticle([FromBody]ArticleDTO newArticle)
 		{
 			await _articleService.PublishNewArticle(newArticle);
 			return Ok();

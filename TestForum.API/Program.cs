@@ -12,41 +12,117 @@ using TestForum.Data.Seeds;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+var rsaKey = RSA.Create();
+rsaKey.ImportRSAPrivateKey(File.ReadAllBytes("key"), out _);
+var key = new RsaSecurityKey(rsaKey);
+//var privateKey = rsaKey.ExportRSAPrivateKey();
+//var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+//var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value));
 
 builder.Services.AddDbContext<ForumDbContext>(options =>
 	options.UseSqlServer(
 		builder.Configuration.GetConnectionString("LocalConnection")));
 
-builder.Services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
 builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>(o=>
 	{
 		o.Password.RequireNonAlphanumeric = false;
 	})
 	.AddEntityFrameworkStores<ForumDbContext>()
 	.AddDefaultTokenProviders();
+#region
+//builder.Services.AddAuthentication("jwt")
+//	.AddJwtBearer("jwt", o =>
+//	{
+//		o.Events = new JwtBearerEvents()
+//		{
+//			OnMessageReceived = (ctx) =>
+//			{
+//				if (ctx.Request.Query.ContainsKey("t"))
+//				{
+//					ctx.Token = ctx.Request.Query["t"];
+//				}
+//				return Task.CompletedTask;
+//			}
+//		};
+//	});
+#endregion
 
-builder.Services.AddAuthentication();
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(options =>
+	{
+		options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+		options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+	})
+	.AddJwtBearer(options =>
+	{
+		options.RequireHttpsMetadata = false;
+		options.SaveToken = true;
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuer = false,
+			ValidateAudience = false,
+			ValidateLifetime = true,
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = key
+			
+		};
+	});
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("adminRole",
+		 policy => policy.RequireRole("admin"));
+	options.AddPolicy("userRole",
+	 policy => policy.RequireRole("user"));
+});
 
+
+builder.Services.AddControllers();
+
+builder.Services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
 builder.Services.AddScoped<IUsersService, ExampleUsersService>();
 builder.Services.AddScoped<IArticlesService, ArticlesService>();
-
+builder.Services.AddScoped<TestForum.API.Abstract.IAuthenticationService, TestForum.API.Services.AuthenticationService>();
 builder.Services.AddScoped<ArticleMapper>();
 
 builder.Services.AddSwaggerGen(c =>
 {
 	c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestForum", Version = "v1" });
-});
 
+	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+	{
+		Description = "JWT Authorization header using the Bearer scheme",
+		Name = "Authorization",
+		In = ParameterLocation.Header,
+		Type = SecuritySchemeType.ApiKey,
+		Scheme = "Bearer",
+	});
+
+	c.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference
+				{
+					Type = ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[] {}
+		}
+	});
+
+});
 
 var app = builder.Build();
 
-// Dodaj role przy uruchamianiu aplikacji
 using (var scope = app.Services.CreateScope())
 {
 	var rolesToAdd = new[] { "admin", "user" };
@@ -61,6 +137,7 @@ using (var scope = app.Services.CreateScope())
 		if (!RoleMgr.RoleExistsAsync(roleName).Result)
 		{
 			// Jeśli nie istnieje, dodaj nową rolę
+
 			var role = new IdentityRole<Guid>(roleName);
 			var result = RoleMgr.CreateAsync(role).Result;
 
@@ -100,7 +177,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -112,6 +190,7 @@ if (app.Environment.IsDevelopment())
 	});
 }
 
-app.MapGet("/", () => "Hello World!");
 app.MapControllers();
+
+app.MapGet("/", () => "Hello World!");
 app.Run();

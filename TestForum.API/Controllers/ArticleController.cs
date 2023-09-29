@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using TestForum.API.Abstract;
 using TestForum.API.Models;
@@ -21,7 +23,8 @@ namespace TestForum.API.Controllers
 		{
 			return View();
 		}
-
+		//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+		[Authorize (Roles = "user")]
 		[HttpGet("GetArticles")]
 		public async Task<IActionResult>  GetArticles()
 		{

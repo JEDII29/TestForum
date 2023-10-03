@@ -19,6 +19,7 @@ namespace TestForum.Data
 		}
 		public DbSet<ArticleEntity> Articles { get; set; }
 		public DbSet<CommentEntity> Comments { get; set; }
+		public DbSet<VoteEntity> Votes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -33,10 +34,29 @@ namespace TestForum.Data
 				.HasForeignKey(c => c.UserId)
 			    .OnDelete(DeleteBehavior.Restrict);
 
+			modelBuilder.Entity<UserEntity>()
+				.HasMany(u => u.Votes)
+				.WithOne()
+				.HasForeignKey(a => a.UserId)
+				.OnDelete(DeleteBehavior.Restrict);
+
 			modelBuilder.Entity<ArticleEntity>()
 				.HasMany(a => a.Comments)
 				.WithOne(c => c.Article)
-				.HasForeignKey(c => c.ArticleId);
+				.HasForeignKey(c => c.ArticleId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<ArticleEntity>()
+				.HasMany(a => a.Votes)
+				.WithOne()
+				.HasForeignKey(c => c.TargetId)
+				.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<CommentEntity>()
+				.HasMany(a => a.Votes)
+				.WithOne()
+				.HasForeignKey(c => c.TargetId)
+				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Ignore<IdentityUserLogin<Guid>>();
 

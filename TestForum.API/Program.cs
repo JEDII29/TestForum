@@ -7,7 +7,7 @@ using TestForum.API.Services;
 using TestForum.Data;
 using TestForum.Data.Entities;
 using AutoMapper;
-using TestForum.API.Mappers;
+using TestForum.API.Infrastructure;
 using TestForum.Data.Seeds;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +33,8 @@ builder.Services.AddDbContext<ForumDbContext>(options =>
 builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>(o=>
 	{
 		o.Password.RequireNonAlphanumeric = false;
+		o.Password.RequireDigit = false;
+		o.Password.RequiredLength = 4;
 	})
 	.AddEntityFrameworkStores<ForumDbContext>()
 	.AddDefaultTokenProviders();
@@ -86,10 +88,11 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
-builder.Services.AddScoped<IUsersService, ExampleUsersService>();
 builder.Services.AddScoped<IArticlesService, ArticlesService>();
+builder.Services.AddScoped<IUsersService, DbUserService>();
 builder.Services.AddScoped<TestForum.API.Abstract.IAuthenticationService, TestForum.API.Services.AuthenticationService>();
-builder.Services.AddScoped<ArticleMapper>();
+builder.Services.AddScoped<UserManager<UserEntity>>();
+builder.Services.AddScoped<MapperProfile>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -102,6 +105,7 @@ builder.Services.AddSwaggerGen(c =>
 		In = ParameterLocation.Header,
 		Type = SecuritySchemeType.ApiKey,
 		Scheme = "Bearer",
+		BearerFormat = "JWT"
 	});
 
 	c.AddSecurityRequirement(new OpenApiSecurityRequirement

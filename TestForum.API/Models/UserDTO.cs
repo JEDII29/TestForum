@@ -15,17 +15,5 @@ namespace TestForum.API.Models
 			UserName = userName;
 			Reputation = 0;
 		}
-
-		public void SetRandomReputation()
-		{
-			Random random = new Random();
-			Reputation = random.Next(0, 40);
-			
-		}
-
-		public void ChangeReputation(int value)
-		{
-			Reputation = value;
-		} 
 	}
 }

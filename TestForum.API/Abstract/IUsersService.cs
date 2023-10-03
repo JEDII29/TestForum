@@ -1,4 +1,5 @@
 ﻿using TestForum.API.Models;
+using TestForum.API.Requests;
 
 namespace TestForum.API.Abstract
 {
@@ -6,6 +7,6 @@ namespace TestForum.API.Abstract
 	{
 		public Task<IEnumerable<UserDTO>> GetAllUsers();
 		public void ChangeUserReputation(int value, UserDTO user);
-		public void SaveNewUser(UserDTO user);
+		public Task SaveNewUser(UserRequest user);
 	}
 }

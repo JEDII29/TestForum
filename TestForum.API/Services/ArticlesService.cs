@@ -1,6 +1,6 @@
 using AutoMapper;
 using TestForum.API.Abstract;
-using TestForum.API.Mappers;
+using TestForum.API.Infrastructure;
 using TestForum.API.Models;
 using TestForum.Data;
 using TestForum.Data.Extensions;
@@ -10,9 +10,9 @@ namespace TestForum.API.Services
 	public class ArticlesService : IArticlesService
 	{
 		private readonly ForumDbContext _dbContext;
-		private readonly ArticleMapper _mapper;
+		private readonly MapperProfile _mapper;
 
-		public ArticlesService(ForumDbContext dbContext, ArticleMapper mapper)
+		public ArticlesService(ForumDbContext dbContext, MapperProfile mapper)
 		{
 			_dbContext = dbContext;
 			_mapper = mapper;

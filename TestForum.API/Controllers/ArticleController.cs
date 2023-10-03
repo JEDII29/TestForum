@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using System.Security.Claims;
 using TestForum.API.Abstract;
 using TestForum.API.Models;
+using TestForum.API.Requests;
 
 namespace TestForum.API.Controllers
 {
@@ -23,7 +25,7 @@ namespace TestForum.API.Controllers
 		{
 			return View();
 		}
-		//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
 		[Authorize (Roles = "user")]
 		[HttpGet("GetArticles")]
 		public async Task<IActionResult>  GetArticles()
@@ -44,10 +46,14 @@ namespace TestForum.API.Controllers
 			return NotFound();
 		}
 
+		[Authorize(Roles = "user")]
 		[HttpPost]
-		public async Task<IActionResult> PostNewArticle([FromBody]ArticleDTO newArticle)
+		public async Task<IActionResult> PostNewArticle([FromBody]ArticleRequest newArticle)
 		{
-			await _articleService.PublishNewArticle(newArticle);
+			var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			Guid newId = Guid.NewGuid();
+			ArticleDTO articleDTO = new ArticleDTO(newId, newArticle.Title, newArticle.Content, userId, DateTime.Now);
+			await _articleService.PublishNewArticle(articleDTO);
 			return Ok();
 		}
 	}

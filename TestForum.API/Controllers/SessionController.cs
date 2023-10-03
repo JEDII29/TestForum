@@ -8,10 +8,10 @@ namespace TestForum.API.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class AccountController : Controller
+	public class SessionController : Controller
 	{
 		private readonly IAuthenticationService _authenticationService;
-		public AccountController(IAuthenticationService authenticationService) 
+		public SessionController(IAuthenticationService authenticationService) 
 		{
 			_authenticationService = authenticationService;
 		}

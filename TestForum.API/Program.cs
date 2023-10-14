@@ -129,7 +129,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-	var rolesToAdd = new[] { "admin", "user" };
+	var rolesToAdd = new[] { "admin", "moder", "user" };
 	var RoleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 	var UsrMgr = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
 	var DbCntx = new ForumDbContext(scope.ServiceProvider.GetRequiredService<DbContextOptions<ForumDbContext>>());
@@ -157,26 +157,42 @@ using (var scope = app.Services.CreateScope())
 	}
 	if (!DbCntx.Users.Any())
 	{
-		var user1 = new UserEntity("Administrator")
+		var account1 = new UserEntity("Administrator")
+		{
+			Reputation = 1000
+		};
+
+		var account2 = new UserEntity("Moderator1")
+		{
+			Reputation = 500
+		};
+
+		var account3 = new UserEntity("Moderator2")
+		{
+			Reputation = 500
+		};
+
+		var account4 = new UserEntity("User1")
 		{
 			Reputation = 100
 		};
 
-		var user2 = new UserEntity("user1")
+		var account5 = new UserEntity("User1")
 		{
-			Reputation = 150
+			Reputation = 100
 		};
 
-		var user3 = new UserEntity("user2")
-		{
-			Reputation = 75
-		};
-		await UsrMgr.CreateAsync(user1, password: "Password1");
-		await UsrMgr.AddToRoleAsync(user1, "admin");
-		await UsrMgr.CreateAsync(user2, password: "Password2");
-		await UsrMgr.AddToRoleAsync(user2, "user");
-		await UsrMgr.CreateAsync(user3, password: "Password3");
-		await UsrMgr.AddToRoleAsync(user3, "user");
+		await UsrMgr.CreateAsync(account1, password: "Password");
+		await UsrMgr.AddToRoleAsync(account1, "admin");
+		await UsrMgr.CreateAsync(account2, password: "Password");
+		await UsrMgr.AddToRoleAsync(account2, "moder");
+		await UsrMgr.CreateAsync(account3, password: "Password");
+		await UsrMgr.AddToRoleAsync(account3, "moder");
+		await UsrMgr.CreateAsync(account4, password: "Password");
+		await UsrMgr.AddToRoleAsync(account4, "user");
+		await UsrMgr.CreateAsync(account5, password: "Password");
+		await UsrMgr.AddToRoleAsync(account5, "user");
+
 	}
 }
 

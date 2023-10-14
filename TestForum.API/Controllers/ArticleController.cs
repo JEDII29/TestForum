@@ -50,11 +50,18 @@ namespace TestForum.API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> PostNewArticle([FromBody]ArticleRequest newArticle)
 		{
-			var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-			Guid newId = Guid.NewGuid();
-			ArticleDTO articleDTO = new ArticleDTO(newId, newArticle.Title, newArticle.Content, userId, DateTime.Now);
-			await _articleService.PublishNewArticle(articleDTO);
-			return Ok();
+			try
+			{
+				var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+				Guid newId = Guid.NewGuid();
+				ArticleDTO articleDTO = new ArticleDTO(newId, newArticle.Title, newArticle.Content, userId, DateTime.Now);
+				await _articleService.PublishNewArticle(articleDTO);
+				return Ok();
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex);
+			}
 		}
 	}
 }

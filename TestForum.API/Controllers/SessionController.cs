@@ -27,7 +27,7 @@ namespace TestForum.API.Controllers
 				var token = await _authenticationService.GenerateAccessToken(user);
 				return Ok(token);
 			}
-			return Ok();	
+			return BadRequest();	
 		}
 	}
 }

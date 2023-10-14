@@ -45,7 +45,7 @@ namespace TestForum.Data.Entities
 		}
 
 		public virtual ICollection<ArticleEntity>? Articles { get; set; }
-
 		public virtual ICollection<CommentEntity>? Comments { get; set; }
+		public virtual ICollection<VoteEntity>? Votes { get; set; }
 	}
 }

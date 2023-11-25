@@ -39,7 +39,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -61,7 +61,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoleClaims");
+                    b.ToTable("RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -83,7 +83,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -96,7 +96,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -118,7 +118,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserTokens");
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("TestForum.Data.Entities.ArticleEntity", b =>
@@ -145,7 +145,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("TestForum.Data.Entities.CommentEntity", b =>
@@ -173,7 +173,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("TestForum.Data.Entities.UserEntity", b =>
@@ -214,31 +214,7 @@ namespace TestForum.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("TestForum.Data.Entities.VoteEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TargetId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TargetId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Votes");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TestForum.Data.Entities.ArticleEntity", b =>
@@ -257,7 +233,7 @@ namespace TestForum.Data.Migrations
                     b.HasOne("TestForum.Data.Entities.ArticleEntity", "Article")
                         .WithMany("Comments")
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TestForum.Data.Entities.UserEntity", "User")
@@ -271,37 +247,9 @@ namespace TestForum.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TestForum.Data.Entities.VoteEntity", b =>
-                {
-                    b.HasOne("TestForum.Data.Entities.ArticleEntity", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("TargetId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("TestForum.Data.Entities.CommentEntity", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("TargetId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("TestForum.Data.Entities.UserEntity", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TestForum.Data.Entities.ArticleEntity", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Votes");
-                });
-
-            modelBuilder.Entity("TestForum.Data.Entities.CommentEntity", b =>
-                {
-                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("TestForum.Data.Entities.UserEntity", b =>
@@ -309,8 +257,6 @@ namespace TestForum.Data.Migrations
                     b.Navigation("Articles");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,12 +20,6 @@ namespace TestForum.API.Controllers
 			_userService = userGettter;
 		}
 
-		[HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
-
 		[Authorize (Roles = "admin")]
 		[Route("GetAll")]
 		[HttpGet]

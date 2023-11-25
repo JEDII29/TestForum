@@ -1,5 +1,0 @@
-2023-07-28 21:50:33.490 +02:00 [INF] To jest przykładowy komunikat logowania.
-2023-07-28 21:56:44.883 +02:00 [INF] To jest przykładowy komunikat logowania.
-2023-07-28 21:57:20.641 +02:00 [INF] To jest przykładowy komunikat logowania.
-2023-07-28 22:00:25.278 +02:00 [INF] To jest przykładowy komunikat logowania.
-2023-07-28 22:00:48.753 +02:00 [INF] To jest przykładowy komunikat logowania.

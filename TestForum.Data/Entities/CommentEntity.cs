@@ -27,6 +27,5 @@ namespace TestForum.Data.Entities
 
 		public Guid ArticleId { get; set; }
 
-		public virtual ICollection<VoteEntity>? Votes { get; set; }
 	}
 }

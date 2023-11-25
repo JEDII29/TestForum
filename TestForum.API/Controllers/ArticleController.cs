@@ -20,11 +20,6 @@ namespace TestForum.API.Controllers
 			_articleService = articleService;
 		}
 
-		[HttpGet]
-		public IActionResult Index()
-		{
-			return View();
-		}
 
 		[Authorize (Roles = "user")]
 		[HttpGet("GetArticles")]

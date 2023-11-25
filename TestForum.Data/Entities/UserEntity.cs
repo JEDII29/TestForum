@@ -44,6 +44,10 @@ namespace TestForum.Data.Entities
 			Reputation = 0;
 		}
 
+		public UserEntity()
+		{
+		}
+
 		public virtual ICollection<ArticleEntity>? Articles { get; set; }
 		public virtual ICollection<CommentEntity>? Comments { get; set; }
 	}

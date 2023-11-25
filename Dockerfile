@@ -19,8 +19,11 @@ WORKDIR /src
 COPY TestForum.sln .
 COPY TestForum.API/TestForum.API.csproj ./TestForum.API/
 COPY TestForum.Data/TestForum.Data.csproj ./TestForum.Data/
+COPY TestForum.API/key /app/key
+
 RUN dotnet restore
 
+#RUN dotnet tool install --global dotnet-ef
 # Copy the source code and build the application
 COPY . .
 RUN dotnet build -c Release -o /app/build
@@ -31,5 +34,5 @@ RUN dotnet publish -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
+COPY TestForum.API/key /app/key
 ENTRYPOINT ["dotnet", "TestForum.API.dll"] 

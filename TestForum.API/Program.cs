@@ -28,7 +28,7 @@ var key = new RsaSecurityKey(rsaKey);
 
 builder.Services.AddDbContext<ForumDbContext>(options =>
 	options.UseSqlServer(
-		builder.Configuration.GetConnectionString("LocalConnection")));
+		builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<UserEntity, IdentityRole<Guid>>(o=>
 	{
@@ -129,6 +129,18 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+	var services = scope.ServiceProvider;
+
+	var context = services.GetRequiredService<ForumDbContext>();
+	if (context.Database.GetPendingMigrations().Any())
+	{
+		context.Database.Migrate();
+	}
+}
+
+/*
+		using (var scope = app.Services.CreateScope())
+{
 	var rolesToAdd = new[] { "admin", "moder", "user" };
 	var RoleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 	var UsrMgr = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
@@ -195,7 +207,7 @@ using (var scope = app.Services.CreateScope())
 
 	}
 }
-
+*/
 
 app.UseAuthentication();
 app.UseAuthorization();

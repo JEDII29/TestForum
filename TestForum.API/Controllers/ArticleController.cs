@@ -21,7 +21,6 @@ namespace TestForum.API.Controllers
 		}
 
 
-		[Authorize (Roles = "user")]
 		[HttpGet("GetArticles")]
 		public async Task<IActionResult>  GetArticles()
 		{

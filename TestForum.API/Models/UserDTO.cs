@@ -15,5 +15,7 @@ namespace TestForum.API.Models
 			UserName = userName;
 			Reputation = 0;
 		}
+		public UserDTO()
+		{ }
 	}
 }

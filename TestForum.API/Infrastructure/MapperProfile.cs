@@ -15,9 +15,13 @@ namespace TestForum.API.Infrastructure
 			{ 
 				cfg.CreateMap<ArticleEntity, ArticleDTO>();
 				cfg.CreateMap<ArticleDTO, ArticleEntity>();
+
 				cfg.CreateMap<UserEntity, UserDTO>();
 				cfg.CreateMap<UserDTO, UserEntity>();
 				cfg.CreateMap<UserEntity, UserRequest>();
+
+				cfg.CreateMap<VoteEntity, VoteDTO>();
+				cfg.CreateMap<VoteDTO, VoteEntity>();
 			}) ;
 
 			_mapper = config.CreateMapper();
@@ -57,7 +61,22 @@ namespace TestForum.API.Infrastructure
 			=> userDTOs.Select(_mapper.Map<UserEntity>);
 		#endregion
 
+		#region VoteMaps
 
+		public VoteDTO MapToDTO(VoteEntity voteEntity)
+			=> _mapper.Map<VoteDTO>(voteEntity);
+		public IEnumerable<VoteDTO> MapToDTO(IQueryable<VoteEntity> voteEntities)
+			=> _mapper.ProjectTo<VoteDTO>(voteEntities);
+		public IEnumerable<VoteDTO> MapToDTO(IEnumerable<VoteEntity> voteEntities)
+			=> voteEntities.Select(_mapper.Map<VoteDTO>);
+
+		public VoteEntity MapToEntity(VoteDTO voteDTO)
+			=> _mapper.Map<VoteEntity>(voteDTO);
+		public IEnumerable<VoteEntity> MapToEntity(IQueryable<VoteDTO> voteDTOs)
+			=> _mapper.ProjectTo<VoteEntity>(voteDTOs);
+		public IEnumerable<VoteEntity> MapToEntity(IEnumerable<VoteDTO> voteDTOs)
+			=> voteDTOs.Select(_mapper.Map<VoteEntity>);
+		#endregion
 
 		//public IEnumerable<ArticleEntity> MapToEntity(IEnumerable<ArticleDTO> articleDTOs)
 		//	=> _mapper.Map<ArticleEntity>(articleDTO);

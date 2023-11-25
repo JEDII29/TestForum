@@ -90,6 +90,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
 builder.Services.AddScoped<IArticlesService, ArticlesService>();
 builder.Services.AddScoped<IUsersService, DbUserService>();
+builder.Services.AddScoped<IReputationService, ReputationService>();
+builder.Services.AddScoped<IVotesService, VotesService>();
 builder.Services.AddScoped<TestForum.API.Abstract.IAuthenticationService, TestForum.API.Services.AuthenticationService>();
 builder.Services.AddScoped<UserManager<UserEntity>>();
 builder.Services.AddScoped<MapperProfile>();
